@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Simple Calculator</string>
+    <string name="Value1">Enter 1st Number</string>
+    <string name="Value2">Enter 2nd Number</string>
+    <string name="button">Result</string>
+    <string name="Result">0</string>
+    <string name="ET1">0</string>
+    <string name="Icon">/Users/vishakkamath/Work/SimpleCalculator/app/src/main/res/drawable/Calculator-Android-R.png</string>
+    <string name="calculator">Calculator</string>
+    <string name="search">search</string>
+    <string name="quick_result">Quick Result</string>
+    <string name="toast_result">Toast Result</string>
+    <string name="divide">Divide</string>
+    <string name="multiply">Multiply</string>
+    <string name="subtract">Subtract</string>
+    <string name="add">Add</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_recent_title">Show Recent Title</string>
+    <string name="show_details_of_recently_clicked_movie">Show Details of Recently CLicked Movie</string>
+
+
+    <string name="share">Share</string>
+    <string name="title_activity_database">DatabaseActivity</string>
+    <string name="title_activity_firebase_test">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="poster">poster</string>
+    <string name="grid_view">GRID VIEW</string>
+    <string name="card_view">CARD VIEW</string>
+</resources>

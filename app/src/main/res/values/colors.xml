@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#074940</color>
+    <color name="colorAccent">#d1c628</color>
+    <color name="textTitleColorPrimary">#212121</color>
+    <color name="textTitleColorPrimaryLight">#484848</color>
+    <color name="textTitleColorPrimaryDark">#000000</color>
+
+    <color name="cardBGColorPrimary">#b3e5fc</color>
+    <color name="cardBGColorPrimaryLight">#e6ffff</color>
+    <color name="cardBGColorPrimaryDark">#82b3c9</color>
+
+    <color name="buttonColorPrimary">#bbdefb</color>
+    <color name="buttonColorLight">#eeffff</color>
+    <color name="buttonColorDark">#8aacc8</color>
+</resources>

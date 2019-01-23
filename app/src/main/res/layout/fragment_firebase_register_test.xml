@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.firebasetest.FirebaseRegisterTestFragment"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/etEmailForSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Enter your Email" />
+
+    <EditText
+        android:id="@+id/etPasswordForSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="Enter your Password" />
+
+    <Button
+        android:id="@+id/btnRegisterFirebaseTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
+
+    <TextView
+        android:id="@+id/tvIfRegSignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Sign In "
+        android:clickable="true"
+        android:focusable="true" />
+
+
+</LinearLayout>
