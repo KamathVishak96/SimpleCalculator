@@ -3,6 +3,7 @@ package com.example.moviedetails
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
@@ -34,6 +35,12 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val packageName = activity?.packageName
+        val options = BitmapFactory.Options().apply{
+            inJustDecodeBounds = true
+        }
+
+
+
 
         arguments?.getParcelable<Movie>(Movie.KEY)?.run {
 

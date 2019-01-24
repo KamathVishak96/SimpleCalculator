@@ -30,7 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".moviedetails.MoviesCardViewActivity"></activity>
+        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".fragmentactivity.ViewpagerActivity" />
+        <activity android:name=".moviedetails.MoviesCardViewActivity" />
 
         <service android:name=".firebasetest.FirebaseMessagingService">
             <intent-filter>

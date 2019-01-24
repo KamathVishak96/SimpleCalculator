@@ -4,7 +4,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.FirebaseInstanceIdService
 import timber.log.Timber
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "OverridingDeprecatedMember")
 class FirebaseInstanceService : FirebaseInstanceIdService() {
 
     override fun onTokenRefresh() {

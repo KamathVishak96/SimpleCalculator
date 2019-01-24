@@ -16,6 +16,7 @@ import com.example.firebasetest.ProfileTestActivity
 import com.example.fragmentactivity.FragmentActivityXML
 import com.example.fragmentactivity.FragmentRunTIme
 import com.example.fragmentactivity.FragmentTestActivity
+import com.example.fragmentactivity.ViewpagerActivity
 import com.example.moviedetails.MoviesActivity
 import com.example.moviedetails.MoviesCardViewActivity
 import com.example.permissionsandjson.PermissionTestActivity
@@ -54,13 +55,17 @@ class MainActivity : AppCompatActivity() {
                 }
             ),
             ActivityNames("Firebase", FirebaseTestActivity::class.java),
-            ActivityNames("FireStore", FirebaseUserActivity::class.java)
+            ActivityNames("FireStore", FirebaseUserActivity::class.java),
+            ActivityNames("viewpager", ViewpagerActivity::class.java)
         )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
 
         rvActivities?.run {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -185,7 +190,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun onButtonItemClick(activity: ActivityNames) {
-        when (activity.name) {
+
+        startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
+        /*when (activity.name) {
 
             "Calculator" -> {
                 startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
@@ -236,7 +243,7 @@ class MainActivity : AppCompatActivity() {
             else -> {
 
             }
-        }
+        }*/
     }
 }
 

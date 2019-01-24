@@ -25,6 +25,13 @@ class MoviesCardViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies_card_view)
+
+        this.window.decorView.apply{
+            systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+
+
+        }
         gvMoviesList.visibility = View.GONE
         rvCardViewMovies.visibility = View.VISIBLE
 
