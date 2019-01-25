@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.WindowManager
 import com.example.R
 import com.example.contentprovider.ContentProviderActivity
 import com.example.database.DatabaseActivity
@@ -55,7 +56,6 @@ class MainActivity : AppCompatActivity() {
                     FirebaseTestActivity::class.java
                 }
             ),
-            ActivityNames("Firebase", FirebaseTestActivity::class.java),
             ActivityNames("FireStore", FirebaseUserActivity::class.java),
             ActivityNames("viewpager", ViewpagerActivity::class.java),
             ActivityNames("Gestures", GesturesActivity::class.java),
@@ -66,8 +66,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
 
         rvActivities?.run {
@@ -90,162 +89,12 @@ class MainActivity : AppCompatActivity() {
         customV.apply {
             setOnClickListener {
                 toast("Clicked")
-            }/*
-            setOnTouchListener { _, event ->
-                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                    this.buttonColor = this.typeArray.getColor(
-                        R.styleable.CustomButton_button_color,
-                        resources.getColor(R.color.buttonColorLight)
-                    )
-                    true
-                } else false
-
-            }*/
-        }
-
-/*
-        calculatorButton.setOnClickListener {
-            val intent = Intent(this, CalculatorActivity::class.java).apply {
-                putExtra(KEY, "Hello")
-            }
-            startActivity(intent)
-        }
-
-        recyclerButton.setOnClickListener {
-            val intent = Intent(this, RecyclerViewActivity::class.java).apply {
-                putExtra(KEY1, "Hello")
-            }
-            startActivity(intent)
-
-        }
-
-        btnFrgXml.setOnClickListener {
-            val intent = Intent(this, FragmentActivityXML::class.java).apply {
-                putExtra("fragmentxml", "Hello")
-            }
-            startActivity(intent)
-        }
-
-        btnFrgRT.setOnClickListener {
-            val intent = Intent(this, FragmentRunTIme::class.java).apply {
-                putExtra("fragmentrt", "Hello")
-            }
-            startActivity(intent)
-        }
-
-        btnFragmentTest.setOnClickListener {
-            val intent = Intent(this, FragmentTestActivity::class.java).apply {
-                putExtra("testfragment", "Hello")
-            }
-            startActivity(intent)
-        }
-
-        btnMovieList.setOnClickListener {
-            val intent = Intent(this, MoviesActivity::class.java).apply {
-                putExtra("movielist", "hello")
-            }
-            startActivity(intent)
-        }
-
-        btnPermissionTest.setOnClickListener {
-            startActivity(Intent(this, PermissionTestActivity::class.java).apply {
-                putExtra("permission", "Hello")
-            })
-        }
-
-        btnShareActivity.setOnClickListener {
-            startActivity(Intent(this, SharingActivity::class.java).apply {
-                putExtra("sharing", "Hello")
-            })
-        }
-
-        btnDBActivity.setOnClickListener {
-            startActivity(Intent(this, DatabaseActivity::class.java).apply {
-                putExtra("Database", "Hello")
-            })
-        }
-
-        btnContentProviderActivity.setOnClickListener {
-            startActivity(Intent(this, ContentProviderActivity::class.java).putExtra("CP", "hello"))
-        }
-
-        btnFirebaseTest.setOnClickListener {
-            if (FirebaseAuth.getInstance().currentUser != null) {
-                startActivity(Intent(this, ProfileTestActivity::class.java).putExtra("profile", "hello"))
-            } else {
-                startActivity(Intent(this, FirebaseTestActivity::class.java).putExtra("firebase", "hello"))
             }
         }
-
-        btnFireBaseCreateUser.setOnClickListener {
-            startActivity(Intent(this, FirebaseUserActivity::class.java).putExtra("firebasecreateuser", "hello"))
-        }
-
-        btnFireStore.setOnClickListener {
-            startActivity(Intent(this, FirebaseUserFirestoreActivity::class.java).putExtra("firestore", "hello"))
-        }
-
-        btnMovieCardView.setOnClickListener {
-            startActivity(Intent(this, MoviesCardViewActivity::class.java).putExtra("moviescv", "hello"))
-        }*/
     }
 
-
     private fun onButtonItemClick(activity: ActivityNames) {
-
         startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-        /*when (activity.name) {
-
-            "Calculator" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Recycler" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "FrgXML" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "FrgRT" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "FrgTest" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Movies" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "MoviesCard" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Permission" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Share" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "DB" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Content Provider" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Profile Test" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-
-            "firebase" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "Firebase" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            "FireStore" -> {
-                startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
-            }
-            else -> {
-
-            }
-        }*/
     }
 }
 
