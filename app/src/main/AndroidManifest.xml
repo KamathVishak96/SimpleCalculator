@@ -30,7 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".services.ServiceActivity"></activity>
+        <activity android:name="gestures.GesturesActivity" />
+        <activity android:name="settings.SettingsActivity" />
         <activity android:name=".fragmentactivity.ViewpagerActivity" />
         <activity android:name=".moviedetails.MoviesCardViewActivity" />
 
@@ -50,7 +52,7 @@
         <activity
             android:name=".firebasetest.FirebaseTestActivity"
             android:label="@string/title_activity_firebase_test" />
-        <activity android:name=".ContentProviderActivity" />
+        <activity android:name=".contentprovider.ContentProviderActivity"/>
         <activity
             android:name=".mainactivity.MainActivity"
             android:configChanges="orientation">
@@ -95,7 +97,7 @@
         <activity android:name=".fragmentactivity.FragmentTestActivity" />
         <activity android:name=".moviedetails.MoviesActivity" />
         <activity android:name=".permissionsandjson.PermissionTestActivity" />
-        <activity android:name=".SharingActivity" />
+        <activity android:name="sharing.SharingActivity" />
         <activity
             android:name=".database.DatabaseActivity"
             android:label="@string/title_activity_database"
@@ -115,6 +117,11 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="defaultnotificationchannel" />
+
+        <service android:name=".services.IntentServiceClass"/>
+        <service android:name=".services.ServiceClass"/>
+        <service android:name=".services.BoundService"/>
+
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
-package com.example
+package com.example.sharing
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.R
 import kotlinx.android.synthetic.main.activity_sharing.*
 
 class SharingActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example
+package com.example.contentprovider
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.widget.Toast
+import com.example.R
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_content_provider.*
 import kotlinx.android.synthetic.main.fragment_poster_dialog.*

@@ -1,7 +1,8 @@
-package com.example
+package com.example.settings
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.R
 
 class SettingsActivity : AppCompatActivity() {
 

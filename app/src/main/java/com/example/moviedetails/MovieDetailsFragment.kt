@@ -3,6 +3,8 @@ package com.example.moviedetails
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -35,9 +37,6 @@ class MovieDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val packageName = activity?.packageName
-        val options = BitmapFactory.Options().apply{
-            inJustDecodeBounds = true
-        }
 
 
 
@@ -56,8 +55,6 @@ class MovieDetailsFragment : Fragment() {
                 /*dialog.setContentView(R.layout.fragment_poster_dialog)
                 dialog.setTitle("POSTER")*/
 
-
-
                 posterDialogFragment.arguments = Bundle().apply {
                     putString(KEY_FILE_NAME, title.replace(" ", "_").toLowerCase())
                 }
@@ -74,14 +71,37 @@ class MovieDetailsFragment : Fragment() {
                 )}"
             )
 
-            Glide.with(this@MovieDetailsFragment)
+            val options = BitmapFactory.Options().apply{
+                inJustDecodeBounds = true
+                inSampleSize = 3
+            }
+            BitmapFactory.decodeResource(resources, resources.getIdentifier(
+                title.replace(" ", "_").toLowerCase(),
+                "drawable", packageName
+            ), options)
+            val imageHeight: Int = options.outHeight
+            val imageWidth: Int = options.outWidth
+            val imageType: String = options.outMimeType
+
+            ivMoviePoster.setImageBitmap(decodeSampledBitmapFromResource(
+                resources,
+                resources.getIdentifier(
+                    title.replace(" ", "_").toLowerCase(),
+                    "drawable", packageName
+                ),
+                100,
+                100
+            ))
+
+
+            /*Glide.with(this@MovieDetailsFragment)
                 .load(
                     resources.getIdentifier(
                         title.replace(" ", "_").toLowerCase(),
                         "drawable", packageName
                     )
                 )
-                .into(ivMoviePoster)
+                .into(ivMoviePoster)*/
 /*
             ivMoviePoster.setImageResource(
                 resources.getIdentifier(
@@ -126,6 +146,47 @@ class MovieDetailsFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
+    private fun decodeSampledBitmapFromResource(
+        res: Resources,
+        resId: Int,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Bitmap {
+        // First decode with inJustDecodeBounds=true to check dimensions
+        return BitmapFactory.Options().run {
+            inJustDecodeBounds = true
+            BitmapFactory.decodeResource(res, resId, this)
+
+            // Calculate inSampleSize
+            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+
+            // Decode bitmap with inSampleSize set
+            inJustDecodeBounds = false
+
+            BitmapFactory.decodeResource(res, resId, this)
+        }
     }
 
     companion object {

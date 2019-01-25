@@ -2,33 +2,33 @@ package com.example.fragmentactivity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
 import com.example.R
 import kotlinx.android.synthetic.main.activity_viewpager.*
 
 const val NUM_PAGES = 2
 const val KEY = "string"
 
-class ViewpagerActivity : FragmentActivity()                  {
-
-    private lateinit var pager: ViewPager
+class ViewpagerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewpager)
 
-        pager = viewPager
-        pager.adapter = ViewPagerAdapter(supportFragmentManager)
+        setSupportActionBar(tbViewpager)
+        tlViewpager.setupWithViewPager(viewPager)
+        viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
+        viewPager.offscreenPageLimit=1
+
     }
 
     override fun onBackPressed() {
-        if (pager.currentItem == 0)
+        if (viewPager.currentItem == 0)
             super.onBackPressed()
         else
-            pager.currentItem--
+            viewPager.currentItem--
     }
 
     private inner class ViewPagerAdapter(val fm: FragmentManager) : FragmentStatePagerAdapter(fm) {

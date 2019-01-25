@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.MotionEvent
-import com.example.ContentProviderActivity
 import com.example.R
-import com.example.SharingActivity
+import com.example.contentprovider.ContentProviderActivity
 import com.example.database.DatabaseActivity
 import com.example.firebasetest.FirebaseTestActivity
 import com.example.firebasetest.FirebaseUserActivity
@@ -17,10 +15,13 @@ import com.example.fragmentactivity.FragmentActivityXML
 import com.example.fragmentactivity.FragmentRunTIme
 import com.example.fragmentactivity.FragmentTestActivity
 import com.example.fragmentactivity.ViewpagerActivity
+import com.example.gestures.GesturesActivity
 import com.example.moviedetails.MoviesActivity
 import com.example.moviedetails.MoviesCardViewActivity
 import com.example.permissionsandjson.PermissionTestActivity
 import com.example.recyclerview.RecyclerViewActivity
+import com.example.services.ServiceActivity
+import com.example.sharing.SharingActivity
 import com.example.simplecalculator.CalculatorActivity
 import com.example.utils.extensions.toast
 import com.google.firebase.auth.FirebaseAuth
@@ -56,7 +57,9 @@ class MainActivity : AppCompatActivity() {
             ),
             ActivityNames("Firebase", FirebaseTestActivity::class.java),
             ActivityNames("FireStore", FirebaseUserActivity::class.java),
-            ActivityNames("viewpager", ViewpagerActivity::class.java)
+            ActivityNames("viewpager", ViewpagerActivity::class.java),
+            ActivityNames("Gestures", GesturesActivity::class.java),
+            ActivityNames("Services", ServiceActivity::class.java)
         )
     }
 
@@ -87,10 +90,9 @@ class MainActivity : AppCompatActivity() {
         customV.apply {
             setOnClickListener {
                 toast("Clicked")
-            }
-            /*setOnTouchListener { _, event ->
-                Timber.i("onCreate: ${event.action == MotionEvent.ACTION_DOWN}")
-                if (event.action == MotionEvent.ACTION_DOWN) {
+            }/*
+            setOnTouchListener { _, event ->
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                     this.buttonColor = this.typeArray.getColor(
                         R.styleable.CustomButton_button_color,
                         resources.getColor(R.color.buttonColorLight)

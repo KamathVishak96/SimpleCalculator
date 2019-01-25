@@ -74,11 +74,12 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
         performClick()
         return mDetector.onTouchEvent(event).let { res ->
             if (!res) {
-                if (event?.action == MotionEvent.ACTION_DOWN) {
-                    buttonColor = typeArray.getColor(
+                if (event?.actionMasked == MotionEvent.ACTION_DOWN) {
+                    customV.buttonColor = typeArray.getColor(
                         R.styleable.CustomButton_button_color,
                         resources.getColor(R.color.buttonColorLight)
                     )
+
                     true
                 } else false
             } else false
