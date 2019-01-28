@@ -86,8 +86,6 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
         }
     }
 
-
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         Timber.i("onFinishInflate: ")
@@ -97,5 +95,4 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
         const val HORIZONTAL_SIZE_DEFAULT = 100
         const val VERTICAL_SIZE_DEFAULT = 50
     }
-
 }
