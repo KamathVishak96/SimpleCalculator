@@ -56,8 +56,10 @@ class ContentProviderActivity : AppCompatActivity() {
             btnOpenCamera.setOnClickListener {
                 Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
                     takePictureIntent.resolveActivity(packageManager)?.also {
+                        startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA)
 
-                        val photoFile: File? = try {
+
+                        /*val photoFile: File? = try {
                             createImageFile()
                         } catch(e: IOException){
                             null
@@ -71,7 +73,7 @@ class ContentProviderActivity : AppCompatActivity() {
                             )
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                             startActivityForResult(takePictureIntent, 1)
-                        }
+                        }*/
 
                     }
                 }
@@ -133,22 +135,8 @@ class ContentProviderActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-
-            if (requestCode == 42)
-                data?.data?.also { uri ->
-                    Timber.d("onActivityResult: URI: $uri")
-                }
-            else if (requestCode == 1)
-                ivDialogImage.setImageBitmap(data?.extras?.get("data") as Bitmap)
-        }
-        btnOpenFile.setOnClickListener {
-            with(Dialog(this)) {
-                window?.requestFeature(Window.FEATURE_NO_TITLE)
-                setContentView(layoutInflater.inflate(R.layout.fragment_poster_dialog, null))
-                ivDialogImage.setImageURI(data?.data)
-                show()
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_CAMERA) {
+            ivCapturedImage.setImageBitmap(data?.extras?.get("userData") as Bitmap)
         }
 
         btnDeleteFile.setOnClickListener {
@@ -188,5 +176,9 @@ class ContentProviderActivity : AppCompatActivity() {
             // Save a file: path for use with ACTION_VIEW intents
             mCurrentPhotoPath = absolutePath
         }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_CAMERA = 1
     }
 }

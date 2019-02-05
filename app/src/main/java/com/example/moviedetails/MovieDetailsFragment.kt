@@ -1,23 +1,24 @@
 package com.example.moviedetails
 
 import android.annotation.SuppressLint
-import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.Toast
-import com.bumptech.glide.Glide
 import com.example.R
 import kotlinx.android.synthetic.main.fragment_movie_details.*
 import timber.log.Timber
 
 
 class MovieDetailsFragment : Fragment() {
-
 
 
     private lateinit var movie: Movie
@@ -52,14 +53,30 @@ class MovieDetailsFragment : Fragment() {
 
             ivMoviePoster.setOnClickListener {
 
-                /*dialog.setContentView(R.layout.fragment_poster_dialog)
-                dialog.setTitle("POSTER")*/
 
-                posterDialogFragment.arguments = Bundle().apply {
-                    putString(KEY_FILE_NAME, title.replace(" ", "_").toLowerCase())
+                if ((context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+                        .activeNetworkInfo.let {
+                        it != null &&
+                                it.isConnected
+                    }
+                ) {
+
+                    posterDialogFragment.arguments = Bundle().apply {
+                        putString(KEY_FILE_NAME, title.replace(" ", "_").toLowerCase())
+                    }
+                    posterDialogFragment.show(activity?.supportFragmentManager, DIALOG_TAG)
+                } else {
+                    val snackBar = Snackbar.make(view, "Not Connected", Snackbar.LENGTH_LONG)
+                    snackBar.apply {
+                        view.let {
+                            (it.layoutParams as FrameLayout.LayoutParams).let { params ->
+                                params.gravity = Gravity.TOP
+                                it.layoutParams = params
+                            }
+                        }
+                        show()
+                    }
                 }
-                posterDialogFragment.show(activity?.supportFragmentManager, DIALOG_TAG)
-
             }
 
             Timber.d("onViewCreated: $packageName")
@@ -71,27 +88,31 @@ class MovieDetailsFragment : Fragment() {
                 )}"
             )
 
-            val options = BitmapFactory.Options().apply{
+            val options = BitmapFactory.Options().apply {
                 inJustDecodeBounds = true
                 inSampleSize = 3
             }
-            BitmapFactory.decodeResource(resources, resources.getIdentifier(
-                title.replace(" ", "_").toLowerCase(),
-                "drawable", packageName
-            ), options)
+            BitmapFactory.decodeResource(
+                resources, resources.getIdentifier(
+                    title.replace(" ", "_").toLowerCase(),
+                    "drawable", packageName
+                ), options
+            )
             val imageHeight: Int = options.outHeight
             val imageWidth: Int = options.outWidth
             val imageType: String = options.outMimeType
 
-            ivMoviePoster.setImageBitmap(decodeSampledBitmapFromResource(
-                resources,
-                resources.getIdentifier(
-                    title.replace(" ", "_").toLowerCase(),
-                    "drawable", packageName
-                ),
-                100,
-                100
-            ))
+            ivMoviePoster.setImageBitmap(
+                decodeSampledBitmapFromResource(
+                    resources,
+                    resources.getIdentifier(
+                        title.replace(" ", "_").toLowerCase(),
+                        "drawable", packageName
+                    ),
+                    100,
+                    100
+                )
+            )
 
 
             /*Glide.with(this@MovieDetailsFragment)

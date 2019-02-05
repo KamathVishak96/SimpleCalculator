@@ -13,6 +13,7 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -29,10 +30,17 @@
         android:roundIcon="@drawable/calculator"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:largeHeap="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".services.ServiceActivity"></activity>
-        <activity android:name="gestures.GesturesActivity" />
-        <activity android:name="settings.SettingsActivity" />
+        <activity android:name=".mvvm.vm.MvvmTwoActivity"></activity>
+        <activity android:name=".mvvm.vmandlivedata.MvvmActivity" />
+        <activity android:name=".retrofit.RetrofitActivity" />
+        <activity android:name=".CameraKitActivity" />
+        <activity android:name=".dependencyinjection.DaggerActivity" />
+        <activity android:name=".backgroundjob.BackgroundJobActivity" />
+        <activity android:name=".services.ServiceActivity" />
+        <activity android:name=".gestures.GesturesActivity" />
+        <activity android:name=".settings.SettingsActivity" />
         <activity android:name=".fragmentactivity.ViewpagerActivity" />
         <activity android:name=".moviedetails.MoviesCardViewActivity" />
 
@@ -52,7 +60,7 @@
         <activity
             android:name=".firebasetest.FirebaseTestActivity"
             android:label="@string/title_activity_firebase_test" />
-        <activity android:name=".contentprovider.ContentProviderActivity"/>
+        <activity android:name=".contentprovider.ContentProviderActivity" />
         <activity
             android:name=".mainactivity.MainActivity"
             android:configChanges="orientation">
@@ -118,12 +126,12 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="defaultnotificationchannel" />
 
-
-
-        <service android:name=".services.IntentServiceClass"/>
-        <service android:name=".services.ServiceClass"/>
-        <service android:name=".services.BoundService"/>
-
+        <service android:name=".services.IntentServiceClass" />
+        <service android:name=".services.ServiceClass" />
+        <service android:name=".services.BoundService" />
+        <service
+            android:name=".backgroundjob.JobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

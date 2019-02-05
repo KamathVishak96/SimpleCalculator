@@ -16,6 +16,8 @@ import com.example.AppConstants
 import com.example.R
 import com.example.utils.delegates.SharedPrefDelegate
 import com.example.utils.extensions.replaceFragment
+import com.fondesa.kpermissions.extension.listeners
+import com.fondesa.kpermissions.extension.permissionsBuilder
 import com.squareup.moshi.Moshi
 import kotlinx.android.synthetic.main.activity_movies.*
 import timber.log.Timber
@@ -155,11 +157,29 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
                         dialog.dismiss()
                     }.create().show()
             else
-                ActivityCompat.requestPermissions(
+                permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .build().apply {
+                        send()
+                        listeners {
+                            onAccepted {
+
+                            }
+                            onDenied {
+
+                            }
+                            onPermanentlyDenied {
+
+                            }
+                            onShouldShowRationale { strings, permissionNonce ->
+
+                            }
+                        }
+                    }
+                /*ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
                     PERMISSION_WRITE_EXTERNAL
-                )
+                )*/
         } else {
             write(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),

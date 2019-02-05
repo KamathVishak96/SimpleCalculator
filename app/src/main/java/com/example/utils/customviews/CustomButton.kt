@@ -1,24 +1,21 @@
+/*
 package com.example.utils.customviews
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
-import android.widget.Toast
 import com.example.R
 import kotlinx.android.synthetic.main.activity_main.view.*
 import timber.log.Timber
 
-class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class CustomButton(context: Context, attrs: AttributeSet) : Button(context, attrs) {
 
     private lateinit var paint: Paint
     private lateinit var rectf: RectF
@@ -28,7 +25,7 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
     private var buttonSizeVertical = 0
 
 
-    init{
+    init {
         initialize(attrs)
     }
 
@@ -41,12 +38,12 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
             return
         typeArray = context.obtainStyledAttributes(set, R.styleable.CustomButton)
         buttonColor =
-                typeArray.getColor(R.styleable.CustomButton_button_color, resources.getColor(R.color.buttonColorDark))
+            typeArray.getColor(R.styleable.CustomButton_button_color, resources.getColor(R.color.buttonColorDark))
         buttonSizeHorizontal =
-                typeArray.getDimensionPixelSize(R.styleable.CustomButton_button_size_horizontal, HORIZONTAL_SIZE_DEFAULT)
+            typeArray.getDimensionPixelSize(R.styleable.CustomButton_button_size_horizontal, HORIZONTAL_SIZE_DEFAULT)
         buttonSizeVertical =
-                typeArray.getDimensionPixelSize(R.styleable.CustomButton_button_size_vertical, VERTICAL_SIZE_DEFAULT)
-       // typeArray.recycle()
+            typeArray.getDimensionPixelSize(R.styleable.CustomButton_button_size_vertical, VERTICAL_SIZE_DEFAULT)
+        // typeArray.recycle()
     }
 
 
@@ -95,4 +92,4 @@ class CustomButton(context: Context, attrs: AttributeSet) : View(context, attrs)
         const val HORIZONTAL_SIZE_DEFAULT = 100
         const val VERTICAL_SIZE_DEFAULT = 50
     }
-}
+}*/

@@ -30,33 +30,48 @@
                     android:layout_height="wrap_content" />
             </android.support.design.widget.AppBarLayout>
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/etOne"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:hint="@string/Value1"
-                android:inputType="number"
-                android:maxLength="9"
-                android:textColor="@android:color/black"
-                android:textColorLink="@android:color/black" />
+                <EditText
+                    android:id="@+id/etOne"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/Value1"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:shadowColor="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/black"
+                    android:background="@drawable/edittext_shape_capsule"/>
 
-            <EditText
-                android:id="@+id/etTwo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:gravity="center_horizontal"
-                android:hint="@string/Value2"
-                android:inputType="number"
-                android:maxLength="9"
-                android:textColor="@android:color/black"
-                android:textColorLink="@android:color/black" />
+            </android.support.design.widget.TextInputLayout>
 
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etTwo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:ems="10"
+                    android:gravity="center_horizontal"
+                    android:hint="@string/Value2"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:shadowColor="@android:color/black"
+                    android:textColor="@android:color/black"
+                    android:textColorLink="@android:color/black"
+                    android:background="@drawable/edittext_shape_capsule" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <RadioGroup
                 android:id="@+id/rgOperation"
