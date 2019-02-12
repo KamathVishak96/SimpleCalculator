@@ -18,9 +18,9 @@ class RetrofitActivity : AppCompatActivity() {
         setContentView(R.layout.activity_retrofit)
         tvRetrofitResult
 
-        // getPost()
+         getPost()
         // getComments()
-        createPost()
+        //createPost()
     }
 
     private fun createPost() {
@@ -133,7 +133,7 @@ class RetrofitActivity : AppCompatActivity() {
         .baseUrl("https://jsonplaceholder.typicode.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(JsonPlaceholderApi::class.java)
+        .create(JsonDownloadService::class.java)
 
 
 }

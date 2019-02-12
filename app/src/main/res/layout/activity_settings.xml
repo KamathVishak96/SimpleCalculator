@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llSettings"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <androidx.preference.PreferenceScreen>
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-        <SwitchPreferenceCompat
-            android:key="notifications"
-            app:title="Enable message notifications"/>
-
-        <Preference
-            android:key="feedback"
-            app:title="Send feedback"
-            android:summary="Report technical issues or suggest new features"/>
-
-    </androidx.preference.PreferenceScreen>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/settingsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Settings" />
+    </android.support.design.widget.AppBarLayout>
 
 </LinearLayout>

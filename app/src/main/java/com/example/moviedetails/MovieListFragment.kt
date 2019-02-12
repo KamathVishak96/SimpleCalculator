@@ -9,8 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.R
+import com.example.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_movie_list.*
-import com.example.moviedetails.MoviesActivity.*
+import kotlinx.android.synthetic.main.rv_movie_list_item.*
 
 
 class MovieListFragment : Fragment() {
@@ -45,18 +46,16 @@ class MovieListFragment : Fragment() {
 
         rvMovies?.run {
             layoutManager = LinearLayoutManager(activity)
-            addItemDecoration(
-                DividerItemDecoration(
-                    activity,
-                    DividerItemDecoration.VERTICAL
-                )
-            )
-            val movieDetailsAdapter = MovieListAdapter {
-                eventListener.onMovieItemClick(it)
+
+            if (activity != null) {
+                val movieDetailsAdapter = MovieListAdapter(activity!!) {
+                    eventListener.onMovieItemClick(it)
+                }
+                movieDetailsAdapter.setMovieList(moviesList)
+                adapter = movieDetailsAdapter
             }
-            movieDetailsAdapter.setMovieList(moviesList)
-            adapter = movieDetailsAdapter
         }
+
     }
 
     interface EventListener {

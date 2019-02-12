@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import android.widget.Toast
+import com.example.BaseActivity
 import com.example.R
 import com.fondesa.kpermissions.extension.permissionsBuilder
 import kotlinx.android.synthetic.main.activity_content_provider.*
@@ -31,7 +32,10 @@ import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ContentProviderActivity : AppCompatActivity() {
+class ContentProviderActivity : BaseActivity() {
+    override fun networkChanged(isConnected: Boolean) {
+
+    }
 
     private val mProjection: Array<String> = arrayOf(
         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,

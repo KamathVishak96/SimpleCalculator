@@ -10,9 +10,9 @@ import android.os.Environment
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.AppConstants
+import com.example.BaseActivity
 import com.example.R
 import com.example.utils.delegates.SharedPrefDelegate
 import com.example.utils.extensions.replaceFragment
@@ -23,8 +23,11 @@ import kotlinx.android.synthetic.main.activity_movies.*
 import timber.log.Timber
 import java.io.*
 
-class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
+class MoviesActivity : BaseActivity(), MovieListFragment.EventListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
+    override fun networkChanged(isConnected: Boolean) {
+
+    }
 
     private val movieListFragment by lazy { MovieListFragment() }
     private val movieDetailsFragment by lazy { MovieDetailsFragment() }
@@ -48,6 +51,8 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_movies)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         if (savedInstanceState == null) {
 
@@ -55,7 +60,7 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
             currentFragmentName = MovieListFragment.KEY
         }
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(tbMovies)
         btnShowRecentTitle.setOnClickListener {
             toastRecentlyClicked()
         }
@@ -99,9 +104,13 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
         Toast.makeText(this, recentTitle, Toast.LENGTH_LONG).show()
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
-
         supportFragmentManager.popBackStackImmediate()
     }
 
@@ -111,7 +120,6 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
         Timber.d("onMovieItemClick() called with: movie = [$movie]")
 
         recentTitle = movie.title
-
 
         outputString = """Title: ${movie.title}
                 Actor: ${movie.actor}
@@ -157,7 +165,10 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
                         dialog.dismiss()
                     }.create().show()
             else
-                permissionsBuilder(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                permissionsBuilder(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
                     .build().apply {
                         send()
                         listeners {
@@ -175,11 +186,11 @@ class MoviesActivity : AppCompatActivity(), MovieListFragment.EventListener,
                             }
                         }
                     }
-                /*ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
-                    PERMISSION_WRITE_EXTERNAL
-                )*/
+            /*ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                PERMISSION_WRITE_EXTERNAL
+            )*/
         } else {
             write(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),

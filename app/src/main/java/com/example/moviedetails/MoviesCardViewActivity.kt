@@ -6,10 +6,13 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Button
+import com.example.BaseActivity
 import com.example.R
 import kotlinx.android.synthetic.main.activity_movies_card_view.*
 
-class MoviesCardViewActivity : AppCompatActivity() {
+class MoviesCardViewActivity : BaseActivity() {
+    override fun networkChanged(isConnected: Boolean) {
+    }
 
     private val moviesList by lazy {
         listOf(

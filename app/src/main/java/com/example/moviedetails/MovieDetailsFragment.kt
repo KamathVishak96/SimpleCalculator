@@ -1,27 +1,47 @@
 package com.example.moviedetails
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
+import android.net.Network
+import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.os.Environment
 import android.support.v4.app.Fragment
 import android.view.*
-import android.widget.FrameLayout
 import android.widget.Toast
 import com.example.R
+import com.example.utils.extensions.toast
 import kotlinx.android.synthetic.main.fragment_movie_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import ru.gildor.coroutines.retrofit.Result
+import ru.gildor.coroutines.retrofit.awaitResult
 import timber.log.Timber
+import java.io.File
+import java.io.FileOutputStream
+
+open class NetworkChangeListenerFragment : Fragment() {
+    val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network?) {
+            super.onAvailable(network)
+            activity?.toast("Changed")
+        }
+
+    }
+}
 
 
-class MovieDetailsFragment : Fragment() {
+class MovieDetailsFragment : NetworkChangeListenerFragment() {
 
 
     private lateinit var movie: Movie
+    private var downloadStatus = false
+
 
     private var posterDialogFragment = PosterDialogFragment()
 
@@ -34,13 +54,10 @@ class MovieDetailsFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = runBlocking {
         super.onViewCreated(view, savedInstanceState)
 
         val packageName = activity?.packageName
-
-
-
 
         arguments?.getParcelable<Movie>(Movie.KEY)?.run {
 
@@ -54,18 +71,12 @@ class MovieDetailsFragment : Fragment() {
             ivMoviePoster.setOnClickListener {
 
 
-                if ((context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+                /*if (!(context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
                         .activeNetworkInfo.let {
                         it != null &&
                                 it.isConnected
                     }
                 ) {
-
-                    posterDialogFragment.arguments = Bundle().apply {
-                        putString(KEY_FILE_NAME, title.replace(" ", "_").toLowerCase())
-                    }
-                    posterDialogFragment.show(activity?.supportFragmentManager, DIALOG_TAG)
-                } else {
                     val snackBar = Snackbar.make(view, "Not Connected", Snackbar.LENGTH_LONG)
                     snackBar.apply {
                         view.let {
@@ -74,9 +85,54 @@ class MovieDetailsFragment : Fragment() {
                                 it.layoutParams = params
                             }
                         }
+                        downloadStatus = false
                         show()
                     }
+                } else {
+
+*/
+                GlobalScope.launch {
+                    val result = (RetrofitFactory.getInstance()?.create(PosterDownloadService::class.java)?.getImage(
+                        when (title.replace(" ", "_").toLowerCase()) {
+                            "civil_war" -> "5/53/Captain_America_Civil_War_poster.jpg"
+                            "avengers" -> "f/f9/TheAvengers2012Poster.jpg"
+                            "infinity_war" -> "4/4d/Avengers_Infinity_War_poster.jpg"
+                            "aquaman" -> "3/3a/Aquaman_poster.jpg"
+                            "age_of_ultron" -> "f/ff/Avengers_Age_of_Ultron_poster.jpg"
+                            else -> ""
+                        }
+                    ))?.awaitResult()
+
+                    when (result) {
+                        is Result.Ok -> {
+                            saveImage(
+                                BitmapFactory.decodeStream(result.value.byteStream()),
+                                title.replace(" ", "_").toLowerCase()
+                            )
+                            posterDialogFragment.arguments = Bundle().apply {
+                                putString(KEY_FILE_NAME, title.replace(" ", "_").toLowerCase())
+                            }
+                            posterDialogFragment.show(activity?.supportFragmentManager, DIALOG_TAG)
+                            return@launch
+                        }
+                        is Result.Error -> {
+                            Timber.e("onViewCreated: ")
+                        }
+                        // Exception while request invocation
+                        is Result.Exception -> {
+                            Timber.e("onViewCreated: Exception")
+                        }
+                        else -> {
+
+                        }
+                    }
                 }
+
+
+
+
+
+                //}
             }
 
             Timber.d("onViewCreated: $packageName")
@@ -98,9 +154,7 @@ class MovieDetailsFragment : Fragment() {
                     "drawable", packageName
                 ), options
             )
-            val imageHeight: Int = options.outHeight
-            val imageWidth: Int = options.outWidth
-            val imageType: String = options.outMimeType
+
 
             ivMoviePoster.setImageBitmap(
                 decodeSampledBitmapFromResource(
@@ -114,24 +168,6 @@ class MovieDetailsFragment : Fragment() {
                 )
             )
 
-
-            /*Glide.with(this@MovieDetailsFragment)
-                .load(
-                    resources.getIdentifier(
-                        title.replace(" ", "_").toLowerCase(),
-                        "drawable", packageName
-                    )
-                )
-                .into(ivMoviePoster)*/
-/*
-            ivMoviePoster.setImageResource(
-                resources.getIdentifier(
-                    title.replace(" ", "_").toLowerCase(),
-                    "drawable",
-                    packageName
-                )
-            )*/
-
             btnShareMovieDetails.setOnClickListener {
                 shareMovie(this)
             }
@@ -139,6 +175,45 @@ class MovieDetailsFragment : Fragment() {
         } ?: Toast.makeText(context, "movie is null", Toast.LENGTH_SHORT).show()
 
 
+    }
+
+    fun saveImage(resource: Bitmap, fileName: String): String? {
+        val storageDir =
+            File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)}/Posters")
+        val savedImagePath: String?
+        var success = true
+        if (!storageDir.exists()) {
+            Timber.d("saveImage: Directory Does not exist")
+            success = storageDir.mkdirs()
+            Timber.i("saveImage: Directory Created? $success")
+        }
+        if (success) {
+            val imageFile = File(storageDir, "$fileName.jpg")
+            savedImagePath = imageFile.absolutePath
+            Timber.i("saveImage: SavedImagePath = $savedImagePath")
+
+
+            try {
+                val fileOutputStream = FileOutputStream(imageFile)
+                resource.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
+                fileOutputStream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            addPicToGallery(savedImagePath)
+
+            return savedImagePath
+        }
+        return ""
+
+    }
+
+    private fun addPicToGallery(imagePath: String) {
+        val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+        val f = File(imagePath)
+        val contentUri = Uri.fromFile(f)
+        mediaScanIntent.data = contentUri
     }
 
     private fun shareMovie(movie: Movie) {

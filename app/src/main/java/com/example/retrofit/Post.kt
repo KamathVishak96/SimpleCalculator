@@ -7,7 +7,6 @@ class Post(
     var text: String
 ) {
     var id = 0
-
 }
 
 class Comments {

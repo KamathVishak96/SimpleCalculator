@@ -84,7 +84,7 @@ class GesturesActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
         btnNotify.setOnClickListener {
 
 
-            val intent = Intent(this, MainActivity::class.java).apply {
+            val intent = Intent(this, GesturesActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -97,19 +97,20 @@ class GesturesActivity : AppCompatActivity(), GestureDetector.OnGestureListener,
                     ).apply {
                         description = "Channel_Description"
                     })
-                    notify(CHANNEL_ID.toInt(), NotificationCompat.Builder(this@GesturesActivity, CHANNEL_ID).let {
 
-                        it.setSmallIcon(R.drawable.notification_icon_background)
-                        it.setContentTitle("CLicked")
-                        it.setContentText("Button CLicked vkufffytcghvytftftytfytfytfytftfyfytdyrfcgfjcciyrcrtycffctrdtdtdmjtxurxrttrrtrxfrxrrikyhhydhyfxfxztxycytfty")
-                        it.setContentIntent(PendingIntent.getActivity(this@GesturesActivity, 0, intent, 0))
-                        it.priority = NotificationCompat.PRIORITY_DEFAULT
-                        it.build()
-                    })
                 }
 
             }
+            (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(CHANNEL_ID.toInt(), NotificationCompat.Builder(this@GesturesActivity, CHANNEL_ID).let {
 
+                it.setSmallIcon(R.drawable.notification_icon_background)
+                it.setContentTitle("CLicked")
+                it.setContentText("Button CLicked")
+                it.setContentIntent(PendingIntent.getActivity(this@GesturesActivity, 0, intent, 0))
+                it.setStyle(NotificationCompat.BigTextStyle().bigText(" vkufffytcghvytftftytfytfytfytftfyfytdyrfcgfjcciyrcrtycffctrdtdtdmjtxurxrttrrtrxfrxrrikyhhydhyfxfxztxycytftyvkufffytcghvytftftytfytfytfytftfyfytdyrfcgfjcciyrcrtycffctrdtdtdmjtxurxrttrrtrxfrxrrikyhhydhyfxfxztxycytfty"))
+                it.priority = NotificationCompat.PRIORITY_DEFAULT
+                it.build()
+            })
 
         }
     }

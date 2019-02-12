@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tbMvvmTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Live Text" />
+    </android.support.design.widget.AppBarLayout>
 
     <TextView
         android:id="@+id/tvMvvmTwo"
@@ -14,8 +27,9 @@
     <EditText
         android:id="@+id/etMvvmTwo"
         android:layout_gravity="center"
-        android:layout_height="400dp"
-        android:layout_width="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:lines="10"/>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
 

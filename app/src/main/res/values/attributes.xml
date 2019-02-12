@@ -8,4 +8,9 @@
 
     </declare-styleable>
 
+    <declare-styleable name="ds">
+        <attr name="themeBackgroundColor" format="color"/>
+        <attr name="textColor" format="color"/>
+    </declare-styleable>
+
 </resources>

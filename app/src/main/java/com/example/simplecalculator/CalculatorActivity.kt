@@ -3,7 +3,13 @@ package com.example.simplecalculator
 
 import android.app.ActionBar
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.view.MenuItemCompat
@@ -11,6 +17,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
@@ -19,29 +26,57 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.R
+import com.example.utils.extensions.toast
 import kotlinx.android.synthetic.main.activity_calculator.*
 
 const val EXTRA = "com.example.SimpleCalculator.MESSAGE"
 
 
 @Suppress("DEPRECATION")
-class CalculatorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+
+open class NetworkChangeListener : AppCompatActivity() {
+    val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network?) {
+            super.onAvailable(network)
+
+            toast("Changed")
+        }
+
+    }
+}
+
+
+class CalculatorActivity : NetworkChangeListener(), SearchView.OnQueryTextListener {
 
     private var inputOne = -1
     private var inputTwo = -1
     var res = -99999999
     private var ops: Operation? = Operation.ADD
     var resList = arrayListOf<Int>()
+    lateinit var viewModel: ResultViewModel
 
-    private var adapter = RvResultAdapter()
+    private lateinit var adapter:RvResultAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(tbCalculator)
         supportActionBar?.title = "Calculator"
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
+        adapter = RvResultAdapter({
+            etOne.text = android.text.SpannableStringBuilder(it.toString())
+            etTwo.let { et ->
+                et.text = null
+                et.clearFocus()
+                etOne.clearFocus()
+            }
+        }, viewModel, this)
 
         val layoutManager = LinearLayoutManager(this)
         rvResult.layoutManager = layoutManager
@@ -58,10 +93,6 @@ class CalculatorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 else -> throw IllegalStateException("not an expected operation")
             }
         }
-
-
-
-
 
         rbAdd.setOnClickListener(onClick)
         rbSub.setOnClickListener(onClick)
@@ -136,6 +167,15 @@ class CalculatorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).registerNetworkCallback(
+            NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).addTransportType(
+                NetworkCapabilities.TRANSPORT_WIFI
+            ).build(), networkCallback
+        )
+    }
+
     override fun onQueryTextSubmit(p0: String?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -158,13 +198,23 @@ class CalculatorActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             menuItem.setOnMenuItemClickListener {
                 searchView.setIconifiedByDefault(false)
                 searchView.layoutParams =
-                        ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
+                    ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT)
                 this.findItem(R.id.search).expandActionView()
             }
         }
 
         return true
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onBackPressed() {
+        finish()
+        super.onBackPressed()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

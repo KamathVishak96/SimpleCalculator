@@ -15,6 +15,8 @@ class MvvmTwoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mvvm_two)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         ViewModelProviders.of(this).get(MvvmTwoViewModel::class.java).let {
             (it.getString() as LiveData<String>)
@@ -34,8 +36,15 @@ class MvvmTwoActivity : AppCompatActivity() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     it.setString(s.toString())
                 }
-
             })
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
+
+
 }

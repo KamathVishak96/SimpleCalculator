@@ -3,11 +3,15 @@ package com.example.mainactivity
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.preference.PreferenceManager
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import com.example.BaseActivity
 import com.example.CameraKitActivity
 import com.example.R
 import com.example.backgroundjob.BackgroundJobActivity
@@ -25,27 +29,44 @@ import com.example.gestures.GesturesActivity
 import com.example.moviedetails.MoviesActivity
 import com.example.moviedetails.MoviesCardViewActivity
 import com.example.mvvm.vm.MvvmTwoActivity
-import com.example.mvvm.vm.MvvmTwoViewModel
 import com.example.mvvm.vmandlivedata.MvvmActivity
 import com.example.permissionsandjson.PermissionTestActivity
 import com.example.recyclerview.RecyclerViewActivity
 import com.example.retrofit.RetrofitActivity
 import com.example.services.ServiceActivity
+import com.example.settings.SettingsActivity
 import com.example.sharing.SharingActivity
 import com.example.simplecalculator.CalculatorActivity
 import com.example.utils.extensions.toast
+import com.example.workmanager.WorkManagerActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+
+    override fun networkChanged(isConnected: Boolean) {
+
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val settingsPref = PreferenceManager.getDefaultSharedPreferences(this)
+            .getBoolean("switch_theme", false)
+        Timber.i("onCreate: $settingsPref")
+        GlobalScope.launch {
+            if (settingsPref) {
+                setTheme(R.style.AppThemeDark)
+            } else
+                setTheme(R.style.AppTheme)
+        }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-
+        setSupportActionBar(tbCalculator)
 
         btnCustom.apply {
             setOnClickListener {
@@ -63,6 +84,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.AppThemeDark)
+        } else setTheme(R.style.AppTheme)
 
         val listOfActivities by lazy {
             listOf(
@@ -97,7 +122,8 @@ class MainActivity : AppCompatActivity() {
                 ActivityNames("CameraKit", CameraKitActivity::class.java),
                 ActivityNames("Retrofit", RetrofitActivity::class.java),
                 ActivityNames("MVVM", MvvmActivity::class.java),
-                ActivityNames("MVVM Two", MvvmTwoActivity::class.java)
+                ActivityNames("MVVM Two", MvvmTwoActivity::class.java),
+                ActivityNames("Work Manager", WorkManagerActivity::class.java)
             )
         }
 
@@ -111,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             val activitiesAdapter = RecyclerAdapter {
-                onButtonItemClick(it)
+                onItemClick(it)
             }
 
             activitiesAdapter.setActivities(listOfActivities)
@@ -131,7 +157,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun onButtonItemClick(activity: ActivityNames) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        onItemClick(ActivityNames("Settings", SettingsActivity::class.java))
+        return true
+    }
+
+    private fun onItemClick(activity: ActivityNames) {
         startActivity(Intent(this, activity.klass).putExtra(activity.name, ""))
     }
 }

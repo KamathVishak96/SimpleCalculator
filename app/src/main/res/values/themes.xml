@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
+    <!--<style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="editTextBackground">@color/colorBackground</item>
+    </style>-->
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="themeBackgroundColor">@color/colorBackground</item>
+        <item name="textColor">@color/colorTextPrimary</item>
+
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/darkThemeColorPrimary</item>
+        <item name="colorPrimaryDark">@color/darkThemeColorPrimaryDark</item>
+        <item name="colorAccent">@color/darkThemeColorAccent</item>
+        <item name="themeBackgroundColor">@color/darkThemeColorBackground</item>
+        <item name="textColor">@color/darkThemeColorTextPrimary</item>
 
+    </style>
+
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>

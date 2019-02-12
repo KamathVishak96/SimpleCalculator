@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="bgColorPrimary">#FFF</color>
+
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#074940</color>
-    <color name="colorAccent">#d1c628</color>
+    <color name="colorAccent">#D1284A</color>
+    <color name="colorTextPrimary">#000</color>
+    <color name="colorBackground">#FFF</color>
+
+    <color name="darkThemeColorPrimary">#008577</color>
+    <color name="darkThemeColorPrimaryDark">#074940</color>
+    <color name="darkThemeColorAccent">#D1284A</color>
+    <color name="darkThemeColorTextPrimary">#090</color>
+    <color name="darkThemeColorBackground">#000</color>
+
     <color name="textTitleColorPrimary">#212121</color>
     <color name="textTitleColorPrimaryLight">#484848</color>
     <color name="textTitleColorPrimaryDark">#000000</color>

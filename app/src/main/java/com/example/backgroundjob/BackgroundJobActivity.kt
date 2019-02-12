@@ -11,12 +11,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v7.app.AppCompatActivity
+import com.example.BaseActivity
 import com.example.R
 import kotlinx.android.synthetic.main.activity_background_job.*
 import timber.log.Timber
 import java.util.*
 
-class BackgroundJobActivity : AppCompatActivity() {
+class BackgroundJobActivity : BaseActivity() {
+    override fun networkChanged(isConnected: Boolean) {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
